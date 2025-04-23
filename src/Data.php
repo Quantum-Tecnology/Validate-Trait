@@ -7,6 +7,7 @@ namespace QuantumTecnology\ValidateTrait;
 use Illuminate\Support\Str;
 use ReflectionProperty;
 
+#[\AllowDynamicProperties]
 class Data
 {
     protected bool $populate = false;
