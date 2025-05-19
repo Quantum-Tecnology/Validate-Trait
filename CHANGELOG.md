@@ -1,4 +1,15 @@
 # CHANGE LOG
+
+## V2.3.2 (19/05/2025)
+
+# PT-BR
+
+- Fixado um erro do ruleProvider. @GustavoSantarosa
+
+# EN
+
+- Fixed an error in the ruleProvider. @GustavoSantarosa
+
 ## V2.3.1 (19/05/2025)
 
 # PT-BR

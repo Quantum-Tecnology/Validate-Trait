@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace App\Rules;
+namespace QuantumTecnology\ValidateTrait\Rules;
 
 use Carbon\Carbon;
 use Closure;
@@ -16,8 +16,8 @@ class MaxDays implements ValidationRule
     /**
      * Create a new rule instance.
      *
-     * @param string $compareColumn nome da coluna para comparar
-     * @param int    $maxDays       número máximo de dias permitidos
+     * @param string $compareColumn Nome da coluna para comparar
+     * @param int    $maxDays       Número máximo de dias permitidos
      */
     public function __construct(string $compareColumn, int $maxDays)
     {
@@ -33,8 +33,13 @@ class MaxDays implements ValidationRule
         // Obter o valor da coluna de comparação
         $compareValue = request()->input($this->compareColumn);
 
+        // Verificar se ambos os valores são datas válidas
+        if (!strtotime($value) || ($compareValue && !strtotime($compareValue))) {
+            $fail(__('The :attribute must be a valid date.'));
 
-        // Se não existir valor, define um valor default (exemplo: data atual)
+            return;
+        }
+
         if (!$compareValue) {
             $today = now()->toDateString();
 
@@ -45,15 +50,8 @@ class MaxDays implements ValidationRule
             }
 
             request()->merge([
-                sprintf('filter.%s', $this->compareColumn) => $compareValue,
+                $this->compareColumn => $compareValue,
             ]);
-        }
-
-        // Verificar se ambos os valores são datas válidas
-        if (!strtotime($value) || !strtotime($compareValue)) {
-            $fail(__('The :attribute must be a valid date.'));
-
-            return;
         }
 
         // Calcular a diferença em dias
@@ -64,6 +62,7 @@ class MaxDays implements ValidationRule
         // Verificar se a diferença está dentro do limite
         if ($diffInDays > $this->maxDays) {
             $fail(__('The :attribute must not differ from :compareColumn by more than :maxDays days.', [
+                'attribute'     => $attribute,
                 'compareColumn' => $this->compareColumn,
                 'maxDays'       => $this->maxDays,
             ]));
