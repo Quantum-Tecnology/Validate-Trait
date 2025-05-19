@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace App\Providers;
+namespace QuantumTecnology\ValidateTrait\Provider;
 
 use App\Rules\MaxDays;
 use Illuminate\Support\Facades\Validator;
@@ -25,7 +25,7 @@ class RulesServiceProvider extends ServiceProvider
         // Registrar a regra personalizada
         Validator::extend('max_days', function ($attribute, $value, $parameters, $validator) {
             $compareColumn = $parameters[0] ?? null;
-            $maxDays = (int) ($parameters[1] ?? 0);
+            $maxDays = (int) ($parameters[1] ?? config('validate.max_days', 0));
 
             if (!$compareColumn || !$maxDays) {
                 return false;

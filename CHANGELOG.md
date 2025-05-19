@@ -1,5 +1,15 @@
 # CHANGE LOG
 
+## V2.3.0 (19/05/2025)
+
+# PT-BR
+
+- Criado o maxdays ruleset para validar o maximo de dias entre duas datas. @GustavoSantarosa
+
+# EN
+
+- Created the maxdays ruleset to validate the maximum number of days between two dates. @GustavoSantarosa
+
 ## V2.2.1 (23/04/2025)
 
 # PT-BR
