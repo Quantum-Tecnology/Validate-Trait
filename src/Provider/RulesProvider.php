@@ -8,7 +8,7 @@ use App\Rules\MaxDays;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
 
-class RulesServiceProvider extends ServiceProvider
+class RulesProvider extends ServiceProvider
 {
     /**
      * Register services.
