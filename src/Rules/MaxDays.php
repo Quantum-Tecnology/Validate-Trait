@@ -43,14 +43,24 @@ class MaxDays implements ValidationRule
         if (!$compareValue) {
             $today = now()->toDateString();
 
+            $compareValue = Carbon::parse($value)->subDays($this->maxDays)->toDateString();
+
             if (strtotime($value) < strtotime($today)) {
                 $compareValue = Carbon::parse($value)->addDays($this->maxDays)->toDateString();
-            } else {
-                $compareValue = Carbon::parse($value)->subDays($this->maxDays)->toDateString();
             }
 
             request()->merge([
                 $this->compareColumn => $compareValue,
+                $attribute           => $value,
+            ]);
+
+            if (strtotime(request('filter.request_date_start')) > strtotime(request('filter.request_date_end'))) {
+                [$this->compareColumn, $attribute] = [$attribute, $this->compareColumn];
+            }
+
+            request()->merge([
+                $this->compareColumn => $compareValue,
+                $attribute           => $value,
             ]);
         }
 

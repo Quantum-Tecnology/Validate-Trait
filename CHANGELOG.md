@@ -1,5 +1,15 @@
 # CHANGE LOG
 
+## V2.3.3 (18/06/2025)
+
+# PT-BR
+
+- Corrijido um erro que ocorria no max days rules. @GustavoSantarosa
+
+# EN
+
+- Fixed an error that occurred in the max days rule. @GustavoSantarosa
+
 ## V2.3.2 (19/05/2025)
 
 # PT-BR
