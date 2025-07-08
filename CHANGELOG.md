@@ -1,5 +1,15 @@
 # CHANGE LOG
 
+## X.X.X
+
+# PT-BR
+
+- Corrigindo o erro de quando utiliza um service em outros lugares. @bhcosta90
+
+# EN
+
+- Fixing the error when using a service in other places. @bhcosta90
+
 ## V2.3.3 (18/06/2025)
 
 # PT-BR
