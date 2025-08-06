@@ -1,5 +1,15 @@
 # CHANGE LOG
 
+## X.X.X
+
+# PT-BR
+
+- Alterado a verificação se tem o atributo na data(). @bhcosta90
+
+# EN
+
+- Changed the check if the attribute is present in data(). @bhcosta90
+
 ## V2.3.3 (18/06/2025)
 
 # PT-BR
