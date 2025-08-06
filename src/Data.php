@@ -139,7 +139,7 @@ class Data
 
     public function has(string $key): bool
     {
-        return isset($this->$key);
+        return property_exists($this, $key);
     }
 
     public function isEmpty(): bool
