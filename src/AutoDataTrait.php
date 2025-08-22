@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace QuantumTecnology\ValidateTrait;
 
 trait AutoDataTrait
@@ -19,6 +21,7 @@ trait AutoDataTrait
         if (
             isset($this->initializedAutoDataTrait)
             && in_array(request()->route()->getActionMethod(), $this->initializedAutoDataTrait)
+            && class_basename(static::class) === str_replace('Controller', 'Service', class_basename(request()->route()->getControllerClass()))
         ) {
             request()->data('validated', $this->validate());
         }

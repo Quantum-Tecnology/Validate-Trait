@@ -1,6 +1,16 @@
 # CHANGE LOG
 
-## X.X.X
+## V2.3.5 (22/08/2025)
+
+# PT-BR
+
+- Fixado uma validação no autodatatrait, que estava fazendo bind de request do service pai em um service filho.  @GustavoSantarosa
+
+# EN
+
+- Fixed a validation in the autodatatrait, which was binding the request from the parent service to a child service. @GustavoSantarosa
+
+## V2.3.4 (18/06/2025)
 
 # PT-BR
 
