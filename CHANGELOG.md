@@ -1,5 +1,15 @@
 # CHANGE LOG
 
+## V2.4.0 (05/09/2025)
+
+# PT-BR
+
+- Acresentado uma função para o data, agora se passar uma string ele irá retornar o valor do atributo. @GustavoSantarosa
+
+# EN
+
+- Added a function to data, now if you pass a string it will return the value of the attribute. @GustavoSantarosa
+
 ## V2.3.5 (22/08/2025)
 
 # PT-BR
