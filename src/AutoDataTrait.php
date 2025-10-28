@@ -23,7 +23,7 @@ trait AutoDataTrait
             && in_array(request()->route()->getActionMethod(), $this->initializedAutoDataTrait)
             && class_basename(static::class) === str_replace('Controller', 'Service', class_basename(request()->route()->getControllerClass()))
         ) {
-            request()->data('validated', $this->validate());
+            data($this->validate());
         }
     }
 }

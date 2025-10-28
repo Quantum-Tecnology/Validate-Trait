@@ -1,5 +1,15 @@
 # CHANGE LOG
 
+## V2.5.0 (28/10/2025)
+
+# PT-BR
+
+- Removido a dependencia do request na trait autodata, agora ele funciona independente do request. @GustavoSantarosa
+
+# EN
+
+- Removed the dependency on the request in the autodata trait, now it works independently of the request. @GustavoSantarosa
+
 ## V2.4.0 (05/09/2025)
 
 # PT-BR

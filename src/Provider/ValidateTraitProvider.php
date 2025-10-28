@@ -22,20 +22,6 @@ class ValidateTraitProvider extends ServiceProvider
             __DIR__.'/../config/hashids.php' => config_path('hashids.php'),
             __DIR__.'/../config/rules.php' => config_path('rules.php'),
         ], 'config');
-
-        Request::macro('data', function ($key = null, $value = null) {
-            if (is_null($key)) {
-                return $this->input('data')['validated'] ?? app(Data::class);
-            }
-
-            if (is_null($value)) {
-                return $this->input('data')[$key] ?? app(Data::class);
-            }
-
-            $data       = $this->input('data', []);
-            $data[$key] = $value;
-            $this->merge(['data' => $data]);
-        });
     }
 
     /**
