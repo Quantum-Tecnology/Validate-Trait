@@ -9,7 +9,7 @@ use QuantumTecnology\ValidateTrait\Data;
  */
 
 if (!function_exists('data')) {
-    function data(object | array | string $data = [], string $blank = ''): mixed
+    function data(object | array | string $data = [], mixed $blank = ''): mixed
     {
         static $currentData = new Data();
 

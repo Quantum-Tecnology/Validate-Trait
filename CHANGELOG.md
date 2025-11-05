@@ -1,5 +1,15 @@
 # CHANGE LOG
 
+## V2.5.1 (05/11/2025)
+
+# PT-BR
+
+- Adicionado a possibilidade de passar mixed no helper data(). @GustavoSantarosa
+
+# EN
+
+- Added the ability to pass mixed in the data() helper. @GustavoSantarosa
+
 ## V2.5.0 (28/10/2025)
 
 # PT-BR
