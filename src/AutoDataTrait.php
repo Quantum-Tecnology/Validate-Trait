@@ -18,10 +18,13 @@ trait AutoDataTrait
 
     public function setSchema()
     {
+        $route = request()->route();
+
         if (
-            isset($this->initializedAutoDataTrait)
-            && in_array(request()->route()->getActionMethod(), $this->initializedAutoDataTrait)
-            && class_basename(static::class) === str_replace('Controller', 'Service', class_basename(request()->route()->getControllerClass()))
+            $route
+            && isset($this->initializedAutoDataTrait)
+            && in_array($route->getActionMethod(), $this->initializedAutoDataTrait)
+            && class_basename(static::class) === str_replace('Controller', 'Service', class_basename($route->getControllerClass()))
         ) {
             data($this->validate());
         }
