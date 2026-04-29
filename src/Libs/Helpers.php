@@ -39,7 +39,6 @@ if (!function_exists('data')) {
             }
             return $blank;
         }
-
         if (is_array($data) || is_object($data)) {
             $currentData->merge($data);
         }

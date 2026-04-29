@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace QuantumTecnology\ValidateTrait;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use ReflectionProperty;
 
@@ -88,12 +89,110 @@ class Data
 
     public function merge(array | object $data = []): self
     {
+        $data = self::normalizeToArray($data);
+        $data = self::expandDotKeys($data);
+
         foreach ($data as $key => $value) {
-            $this->$key = $value;
+            if (isset($this->$key)) {
+                $current = $this->$key;
+                // Ambos arrays associativos
+                if (is_array($current) && is_array($value) && self::isAssoc($current) && self::isAssoc($value)) {
+                    $this->$key = self::arrayMergeAssoc($current, $value);
+                }
+                // Ambos objetos
+                elseif (is_object($current) && is_object($value)) {
+                    $this->$key = (new self((array)$current))->merge((array)$value);
+                }
+                // Caso contrário, sobrescreve
+                else {
+                    $this->$key = $value;
+                }
+            } else {
+                $this->$key = $value;
+            }
         }
 
         return $this;
+
     }
+
+    /**
+     * Converte objeto/array em array público, removendo chaves de propriedades
+     * protected/private (que ao serem cast para array recebem prefixo "\0").
+     */
+    private static function normalizeToArray(array | object $data): array
+    {
+        if ($data instanceof self) {
+            return $data->toArray();
+        }
+
+        if (is_object($data)) {
+            if (method_exists($data, 'toArray')) {
+                return $data->toArray();
+            }
+            $data = (array) $data;
+        }
+
+        $clean = [];
+        foreach ($data as $key => $value) {
+            if (is_string($key) && str_contains($key, "\0")) {
+                continue;
+            }
+            $clean[$key] = $value;
+        }
+
+        return $clean;
+    }
+
+    /**
+     * Expande chaves com notação de ponto em arrays aninhados.
+     * Ex.: ['a.b' => 1, 'a' => ['c' => 2]] → ['a' => ['b' => 1, 'c' => 2]]
+     */
+    private static function expandDotKeys(array $data): array
+    {
+        $expanded = [];
+
+        foreach ($data as $key => $value) {
+            if (is_string($key) && str_contains($key, '.')) {
+                $nested = [];
+                Arr::set($nested, $key, $value);
+                $expanded = self::arrayMergeAssoc($expanded, $nested);
+            } else {
+                if (isset($expanded[$key]) && is_array($expanded[$key]) && is_array($value) && self::isAssoc($expanded[$key]) && self::isAssoc($value)) {
+                    $expanded[$key] = self::arrayMergeAssoc($expanded[$key], $value);
+                } else {
+                    $expanded[$key] = $value;
+                }
+            }
+        }
+
+        return $expanded;
+    }
+
+    /**
+     * Faz merge profundo apenas de arrays associativos.
+     */
+    private static function arrayMergeAssoc(array $a, array $b): array
+    {
+        foreach ($b as $key => $value) {
+            if (isset($a[$key]) && is_array($a[$key]) && is_array($value) && self::isAssoc($a[$key]) && self::isAssoc($value)) {
+                $a[$key] = self::arrayMergeAssoc($a[$key], $value);
+            } else {
+                $a[$key] = $value;
+            }
+        }
+        return $a;
+    }
+
+    /**
+     * Verifica se um array é associativo.
+     */
+    private static function isAssoc(array $arr): bool
+    {
+        if ([] === $arr) return false;
+        return array_keys($arr) !== range(0, count($arr) - 1);
+    }
+
 
     public function only(
         array $keys,
