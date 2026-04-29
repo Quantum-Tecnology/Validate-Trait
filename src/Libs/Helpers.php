@@ -19,7 +19,6 @@ if (!function_exists('data')) {
                 $value = $currentData;
 
                 foreach ($parts as $part) {
-                    //dump(['value' => $value, 'part' => $part]);
                     if (is_array($value)) {
                         $value = $value[$part] ?? $blank;
                     } elseif (is_object($value)) {
