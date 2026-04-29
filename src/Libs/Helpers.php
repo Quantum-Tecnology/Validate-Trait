@@ -14,7 +14,31 @@ if (!function_exists('data')) {
         static $currentData = new Data();
 
         if (is_string($data)) {
-            return $currentData->{$data} ?? $blank;
+            if (str_contains($data, '.')) {
+                $parts = explode('.', $data);
+                $value = $currentData;
+
+                foreach ($parts as $part) {
+                    //dump(['value' => $value, 'part' => $part]);
+                    if (is_array($value)) {
+                        $value = $value[$part] ?? $blank;
+                    } elseif (is_object($value)) {
+                        $value = $value->{$part} ?? $blank;
+                    } else {
+                        return $blank;
+                    }
+                }
+
+                return $value;
+            }
+
+            // Acesso simples (sem ponto)
+            if (is_array($currentData)) {
+                return $currentData[$data] ?? $blank;
+            } elseif (is_object($currentData)) {
+                return $currentData->{$data} ?? $blank;
+            }
+            return $blank;
         }
 
         if (is_array($data) || is_object($data)) {
