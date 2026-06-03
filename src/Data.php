@@ -101,7 +101,7 @@ class Data
                 }
                 // Ambos objetos
                 elseif (is_object($current) && is_object($value)) {
-                    $this->$key = (new self((array)$current))->merge((array)$value);
+                    $this->$key = (new self(self::normalizeToArray($current)))->merge(self::normalizeToArray($value));
                 }
                 // Caso contrário, sobrescreve
                 else {
