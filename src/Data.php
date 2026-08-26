@@ -99,8 +99,10 @@ class Data
                 if (is_array($current) && is_array($value) && self::isAssoc($current) && self::isAssoc($value)) {
                     $this->$key = self::arrayMergeAssoc($current, $value);
                 }
-                // Ambos objetos
-                elseif (is_object($current) && is_object($value)) {
+                // Ambos objetos "mesclaveis" (stdClass/Data) — objetos com
+                // comportamento proprio (Collection, Paginator, Model, Carbon...)
+                // NAO podem ser reconstruidos como Data: isso destroi seus metodos.
+                elseif (self::isMergeable($current) && self::isMergeable($value)) {
                     $this->$key = (new self(self::normalizeToArray($current)))->merge(self::normalizeToArray($value));
                 }
                 // Caso contrário, sobrescreve
@@ -114,6 +116,20 @@ class Data
 
         return $this;
 
+    }
+
+    /**
+     * Um objeto so pode ser mesclado (reconstruido como Data) se for um simples
+     * saco de propriedades: stdClass ou a propria Data.
+     *
+     * Qualquer outro objeto — Collection, LengthAwarePaginator, Model, Carbon —
+     * tem comportamento proprio, e transforma-lo em Data apaga seus metodos.
+     * Foi o que quebrou consumidores que faziam $values->first() depois de um
+     * segundo merge sobre a mesma chave (ver CHANGELOG 2.5.9).
+     */
+    private static function isMergeable(mixed $value): bool
+    {
+        return $value instanceof self || $value instanceof \stdClass;
     }
 
     /**

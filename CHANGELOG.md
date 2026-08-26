@@ -1,5 +1,15 @@
 # CHANGE LOG
 
+## V2.5.9 (26/08/2026)
+
+# PT-BR
+
+- Corrigido: Data::merge() nao converte mais objetos com comportamento proprio (Collection, LengthAwarePaginator, Model, Carbon) em Data. A partir da 2.5.8, um segundo merge sobre a MESMA chave reconstruia o valor como Data e apagava seus metodos — consumidores que faziam $values->first() quebravam com "Call to undefined method Data::first()". O deep merge continua valendo para stdClass, Data e arrays associativos. @GustavoSantarosa
+
+# EN
+
+- Fixed: Data::merge() no longer converts objects with their own behavior (Collection, LengthAwarePaginator, Model, Carbon) into Data. Since 2.5.8, a second merge on the SAME key rebuilt the value as Data and wiped its methods — consumers calling $values->first() broke with "Call to undefined method Data::first()". Deep merge still applies to stdClass, Data and associative arrays. @GustavoSantarosa
+
 ## V2.5.2 (05/11/2025)
 
 # PT-BR
